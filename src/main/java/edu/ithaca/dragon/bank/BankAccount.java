@@ -38,32 +38,45 @@ public class BankAccount {
 
 
     public static boolean isEmailValid(String email){
-        if (email.indexOf('@') == -1 || email.indexOf('.') == -1 || email.indexOf('@') == 0){ //checking if it contains @ and ., or if it has no prefix
+        if (email.indexOf('@') == -1 || email.indexOf('.') == -1){ //checking if it contains @ and ., or if it has no prefix
             return false;
         }
         else{
             email = email.toLowerCase();
-
+            String[] legalValues ={"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","0","1","2","3","4","5","6","7","8","9"};
             String[] charArray= {"-","_","."};
+            String prefix = email.substring(0, email.indexOf("@"));
+            String suffix = email.substring(email.indexOf("@") + 1);
+
+            String firstChar = String.valueOf(email.charAt(0));
+            if(Arrays.asList(charArray).contains(firstChar) || firstChar.equals("@")){
+                return false;
+            }
             for(String str: charArray){
-                if(email.contains(str) && String.valueOf(email.charAt(email.indexOf(str) + 1 )).equals("@")){
+
+                if(email.indexOf(str) + 1 == email.length()){
+                    return false;
+                }
+                String specialChar = String.valueOf(email.charAt(email.indexOf(str) + 1));
+                if(prefix.contains(str) && !Arrays.asList(legalValues).contains(specialChar)){
+                    return false; //checks if special characters are at the end of the prefix, not followed by another valid character
+                }
+                else if(suffix.contains(str) && !Arrays.asList(legalValues).contains(specialChar)){
                     return false; //checks if special characters are at the end of the prefix, not followed by another valid character
                 }
             }
-            String prefix = email.substring(0, email.indexOf("@"));
-            String suffix = email.substring(email.indexOf("@") + 1);
-            String[] legalValues ={"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","0","1","2","3","4","5","6","7","8","9", "-","_","."};
+
 
             for(int i = 0; i < prefix.length(); i++){
                 String currentChar = String.valueOf(prefix.charAt(i));
-                    if(!Arrays.asList(legalValues).contains(currentChar)){
+                    if(!Arrays.asList(legalValues).contains(currentChar) && !Arrays.asList(charArray).contains(currentChar)){
                         return false; //checks if all prefix chars are valid
                 }
             }
 
             for(int i = 0; i < suffix.length(); i++){
                 String currentChar = String.valueOf(suffix.charAt(i));
-                if(!Arrays.asList(legalValues).contains(currentChar) || currentChar.equals("_")){
+                if(!Arrays.asList(legalValues).contains(currentChar) && !Arrays.asList(charArray).contains(currentChar)|| currentChar.equals("_")){
                     return false; //checks if all suffix values are valid
                 }
             }
@@ -71,8 +84,8 @@ public class BankAccount {
             int index = suffix.indexOf(".") + 1;
             String domain = suffix.substring(index);
 
-            //checks if domain name is at least 2 characters long, or if it has more than 1 period
-            return domain.length() >= 2 && domain.indexOf('.') == -1;
+            //checks if domain name is at least 2 characters long, or if it has more than 1 period & that a period exists
+            return domain.length() >= 2 && domain.indexOf('.') == -1 && index != 0;
         }
     }
 }
