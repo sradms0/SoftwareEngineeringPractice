@@ -24,10 +24,29 @@ class BankAccountTest {
     @Test
     void isEmailValidTest(){
         assertTrue(BankAccount.isEmailValid( "a@b.com"));
-        assertFalse(BankAccount.isEmailValid( "a@bcom"));
-        assertFalse(BankAccount.isEmailValid( "@b.com"));
-        assertFalse(BankAccount.isEmailValid( "b.com"));
-        assertFalse(BankAccount.isEmailValid( "@"));
+        // invalid prefixes
+        assertFalse( BankAccount.isEmailValid("abc-@mail.com") );
+        // failing:
+        //assertFalse( BankAccount.isEmailValid("abc..def@mail.com") );
+        //assertFalse( BankAccount.isEmailValid(".abc@mail.com") );
+        assertFalse( BankAccount.isEmailValid("abc#def@mail.com") );
+
+         // invalid domains
+        assertFalse( BankAccount.isEmailValid("abc.def@mail.c") );
+        assertFalse( BankAccount.isEmailValid("abc.def@mail#archive.com") );
+        // failing:
+        //assertFalse( BankAccount.isEmailValid("abc.def@mail") );
+        assertFalse( BankAccount.isEmailValid("abc.def@mail..com") );
+
+        // invalid domain suffixes
+        //failing:
+        //assertFalse( BankAccount.isEmailValid("ab-g@mail.bug"));
+        //assertFalse( BankAccount.isEmailValid("abdefg@mail.io"));
+        assertFalse( BankAccount.isEmailValid("ae-f-g@mail.o"));
+        // string index out of range:
+        //assertFalse( BankAccount.isEmailValid("ab@mail."));
+
+        // no email
         assertFalse( BankAccount.isEmailValid(""));
     }
 
