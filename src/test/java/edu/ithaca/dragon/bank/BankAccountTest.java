@@ -10,7 +10,20 @@ class BankAccountTest {
     void getBalanceTest() {
         BankAccount bankAccount = new BankAccount("a@b.com", 200);
 
+        // positive balance
         assertEquals(200, bankAccount.getBalance());
+        bankAccount.withdraw(.5);
+        assertEquals(199.5, bankAccount.getBalance());
+
+        // zero balance
+        bankAccount.withdraw(199.5);
+        assertEquals(0, bankAccount.getBalance());
+
+        // negative balance
+        bankAccount.withdraw(1);
+        assertEquals(-1, bankAccount.getBalance());
+        bankAccount.withdraw(.5);
+        assertEquals(-1.5, bankAccount.getBalance());
     }
 
     @Test
