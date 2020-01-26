@@ -36,20 +36,27 @@ class BankAccountTest {
 
     @Test
     void isEmailValidTest(){
-        assertTrue(BankAccount.isEmailValid( "a@b.com"));
-        // invalid prefixes
+        // PREFIX:
+        // starts with alpha char
+        assertFalse( BankAccount.isEmailValid(".abc@mail.com") );
+        // every non-alpha-num char (-._) has an alpha char after
         assertFalse( BankAccount.isEmailValid("abc-@mail.com") );
         assertFalse( BankAccount.isEmailValid("abc..def@mail.com") );
-        assertFalse( BankAccount.isEmailValid(".abc@mail.com") );
-        assertFalse( BankAccount.isEmailValid("abc#def@mail.com") );
+        // contains optional valid non-alpha-num char (_-.)
+        assertTrue( BankAccount.isEmailValid("abc-def@mail.com") );
+        assertTrue( BankAccount.isEmailValid("abc.def@mail.com") );
+        assertTrue( BankAccount.isEmailValid("abc_def@mail.com") );
+        // border value: contains @
+        assertTrue(BankAccount.isEmailValid( "a@b.com"));
+        assertFalse( BankAccount.isEmailValid("amail.com") );
 
-         // invalid domains
-        assertFalse( BankAccount.isEmailValid("abc.def@mail.c") );
-        assertFalse( BankAccount.isEmailValid("abc.def@mail#archive.com") );
-        assertFalse( BankAccount.isEmailValid("abc.def@mail") );
-        assertFalse( BankAccount.isEmailValid("abc.def@mail..com") );
+        // DOMAIN NAME:
+        // contains alpha char with optional numbers and/or dashes
+        assertFalse( BankAccount.isEmailValid("abc.def@mail+.com") );
+        assertFalse( BankAccount.isEmailValid("abc.def@mail#1archive.com") );
 
-        // invalid domain suffixes
+        // DOMAIN EXTENSION:
+        // starts with period and ends with two characters
         assertFalse( BankAccount.isEmailValid("ae-f-g@mail.o"));
         assertFalse( BankAccount.isEmailValid("ab@mail."));
 
