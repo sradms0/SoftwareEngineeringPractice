@@ -11,27 +11,30 @@ class BankAccountTest {
         BankAccount bankAccount = new BankAccount("a@b.com", 200);
 
         // positive balance
-        assertEquals(200, bankAccount.getBalance());
-        bankAccount.withdraw(.5);
-        assertEquals(199.5, bankAccount.getBalance());
+        try {
+            assertEquals(200, bankAccount.getBalance());
+            bankAccount.withdraw(.5);
+            assertEquals(199.5, bankAccount.getBalance());
+        } catch(InsufficientFundsException ie) {
+            fail("Error thrown..");
+        }
 
         // zero balance
-        bankAccount.withdraw(199.5);
-        assertEquals(0, bankAccount.getBalance());
-
-        // negative balance
-        bankAccount.withdraw(1);
-        assertEquals(-1, bankAccount.getBalance());
-        bankAccount.withdraw(.5);
-        assertEquals(-1.5, bankAccount.getBalance());
+        try {
+            bankAccount.withdraw(199.5);
+            assertEquals(0, bankAccount.getBalance());
+        } catch(InsufficientFundsException ie) {
+            fail("Error thrown..");
+        }
     }
 
     @Test
-    void withdrawTest() {
+    void withdrawTest() throws InsufficientFundsException{
         BankAccount bankAccount = new BankAccount("a@b.com", 200);
         bankAccount.withdraw(100);
 
         assertEquals(100, bankAccount.getBalance());
+        assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(300));
     }
 
     @Test
