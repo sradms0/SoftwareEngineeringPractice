@@ -38,6 +38,8 @@ class BankAccountTest {
         assertEquals(99, bankAccount.getBalance());
         bankAccount.withdraw(50.5);
         assertEquals(48.5, bankAccount.getBalance());
+        bankAccount.withdraw(50.54321);
+        assertEquals(48.5, bankAccount.getBalance());
 
         // zero
         bankAccount.withdraw(0);
