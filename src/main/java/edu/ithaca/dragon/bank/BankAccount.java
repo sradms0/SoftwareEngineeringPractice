@@ -33,7 +33,7 @@ public class BankAccount {
      * @throws InsufficientFundsException if amount exceeds balance
      */
     public void withdraw (double amount)  throws InsufficientFundsException{
-        if (amount <= balance){
+        if (amount <= balance && amount >= 0){
             balance -= amount;
         }
         else {
