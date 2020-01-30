@@ -101,11 +101,17 @@ public class BankAccount {
     }
 
     /**
-     * Checks if a money amount has more than two decimal places.
+     * Checks if a money amount is a non-negative amount and has no more than two decimal places.
      * @param amount A money amount
      * @return a boolean to show validity of amount
      */
     public static boolean isAmountValid(double amount) {
+        if (amount > 0) {
+            String amountStr = ""+amount;
+            int decimalLength = amountStr.substring( amountStr.indexOf(".")+1 ).length();
+
+            return decimalLength < 3;
+        }
         return false;
     }
 }
