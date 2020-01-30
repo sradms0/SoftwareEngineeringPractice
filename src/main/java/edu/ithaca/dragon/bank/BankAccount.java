@@ -99,4 +99,13 @@ public class BankAccount {
             return domain.length() >= 2 && domain.indexOf('.') == -1 && index != 0;
         }
     }
+
+    /**
+     * Checks if a money amount has more than two decimal places.
+     * @param amount A money amount
+     * @return a boolean to show validity of amount
+     */
+    public static boolean isAmountValid(double amount) {
+        return false;
+    }
 }
