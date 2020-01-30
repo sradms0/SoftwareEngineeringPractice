@@ -11,6 +11,8 @@ public class BankAccount {
      * @throws IllegalArgumentException if email is invalid
      */
     public BankAccount(String email, double startingBalance){
+        if (!isAmountValid(startingBalance))
+            throw new IllegalArgumentException("A positive balance with no more than two decimal places is required");
         if (isEmailValid(email)){
             this.email = email;
             this.balance = startingBalance;
@@ -33,11 +35,11 @@ public class BankAccount {
      * @throws InsufficientFundsException if amount exceeds balance
      */
     public void withdraw (double amount)  throws InsufficientFundsException{
-        String amountStr = String.valueOf(amount);
-        int temp = amountStr.substring(amountStr.indexOf(".")).length();
-        if(amountStr.substring(amountStr.indexOf(".")).length() > 2){
-            return;
-        }
+        if (!isAmountValid(amount))
+            throw new IllegalArgumentException(
+                    "Only a positive amount of money with no more than two decimal places is allowed"
+            );
+
         if (amount <= balance && amount >= 0){
                 balance -= amount;
         }
