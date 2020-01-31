@@ -129,4 +129,14 @@ public class BankAccount {
             );
         balance += amount;
     }
+
+    /**
+     * Transfers a money amount from one account to another.
+     * @param amount A money amount
+     * @param bankAccount Account to transfer a money amount to
+     * @throws IllegalArgumentException if amount is is considered invalid by isAmountValid or if bankAccount is null
+     */
+    public void transfer(double amount, BankAccount bankAccount) {
+
+    }
 }
