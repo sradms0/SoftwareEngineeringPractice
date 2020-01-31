@@ -116,4 +116,15 @@ public class BankAccount {
         }
         return false;
     }
+
+    /**
+     * Deposits a money amount to the account.
+     * @param amount A money amount
+     * @throws InsufficientArgumentException if amount is is considered invalid by isAmountValid
+     */
+    public void deposit(double amount) {
+        throw new IllegalArgumentException(
+            "Only a positive amount of money with no more than two decimal places is allowed"
+        );
+    }
 }

@@ -123,4 +123,30 @@ class BankAccountTest {
         assertFalse(BankAccount.isAmountValid(0.001));
         assertFalse(BankAccount.isAmountValid(0.111));
     }
+
+    @Test
+    public void depositTest() {
+        BankAccount bankAccount = new BankAccount("a@b.com", 200);
+        // positive
+        bankAccount.deposit(100);
+        assertEquals(100, bankAccount.getBalance());
+        bankAccount.deposit(1);
+        assertEquals(99, bankAccount.getBalance());
+        bankAccount.deposit(50.5);
+        assertEquals(48.5, bankAccount.getBalance());
+        assertThrows(IllegalArgumentException.class, ()-> bankAccount.deposit(100.999));
+        assertThrows(IllegalArgumentException.class, ()-> bankAccount.deposit(1.001));
+
+        // zero
+        assertThrows(IllegalArgumentException.class, ()-> bankAccount.deposit(0));
+
+        // negative
+        assertThrows(IllegalArgumentException.class, ()-> bankAccount.deposit(-100));
+        assertThrows(IllegalArgumentException.class, ()-> bankAccount.deposit(-1));
+        assertThrows(IllegalArgumentException.class, ()-> bankAccount.deposit(-100.999));
+        assertThrows(IllegalArgumentException.class, ()-> bankAccount.deposit(-1.001));
+
+        // exceeding
+        assertThrows(InsufficientFundsException.class, () -> bankAccount.deposit(300));
+    }
 }
