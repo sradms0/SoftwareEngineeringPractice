@@ -120,11 +120,13 @@ public class BankAccount {
     /**
      * Deposits a money amount to the account.
      * @param amount A money amount
-     * @throws InsufficientArgumentException if amount is is considered invalid by isAmountValid
+     * @throws IllegalArgumentException if amount is is considered invalid by isAmountValid
      */
     public void deposit(double amount) {
-        throw new IllegalArgumentException(
-            "Only a positive amount of money with no more than two decimal places is allowed"
-        );
+        if (!isAmountValid(amount))
+            throw new IllegalArgumentException(
+                "Only a positive amount of money with no more than two decimal places is allowed"
+            );
+        balance += amount;
     }
 }
