@@ -149,21 +149,25 @@ class BankAccountTest {
 
     @Test
     public void transferTest() {
-        BankAccount bankAccountA = new BankAccount("a@b.com", 500),
+        BankAccount bankAccountA = new BankAccount("a@b.com", 300),
                     bankAccountB = new BankAccount("b@c.com", 200);
 
-        // positive int from account A to B
-        bankAccountA.transfer(100, bankAccountB);
-        assertEquals(300, bankAccountB.getBalance());
-        assertEquals(200, bankAccountA.getBalance());
+        try {
+            // positive int from account A to B
+            bankAccountA.transfer(100, bankAccountB);
+            assertEquals(300, bankAccountB.getBalance());
+            assertEquals(200, bankAccountA.getBalance());
 
-        bankAccountA.transfer(1, bankAccountB);
-        assertEquals(301, bankAccountB.getBalance());
-        assertEquals(199, bankAccountA.getBalance());
+            bankAccountA.transfer(1, bankAccountB);
+            assertEquals(301, bankAccountB.getBalance());
+            assertEquals(199, bankAccountA.getBalance());
 
-        bankAccountA.transfer(50.5, bankAccountB);
-        assertEquals(351.5, bankAccountB.getBalance());
-        assertEquals(148.5, bankAccountA.getBalance());
+            bankAccountA.transfer(50.5, bankAccountB);
+            assertEquals(351.5, bankAccountB.getBalance());
+            assertEquals(148.5, bankAccountA.getBalance());
+        } catch(Exception e) {
+            fail(e.getMessage());
+        }
 
         // positive decimal greater than two from A to B
         assertThrows(IllegalArgumentException.class, ()-> bankAccountA.transfer(100.999, bankAccountB));
@@ -178,8 +182,6 @@ class BankAccountTest {
         assertThrows(IllegalArgumentException.class, ()-> bankAccountA.transfer(-100.999, bankAccountB));
         assertThrows(IllegalArgumentException.class, ()-> bankAccountA.transfer(-1.001, bankAccountB));
 
-        // entire balance from A to B
-        assertThrows(InsufficientFundsException.class, ()-> bankAccountA.transfer(bankAccountA.getBalance(), bankAccountB));
         // more than balance from A to B
         assertThrows(InsufficientFundsException.class, ()-> bankAccountA.transfer(bankAccountA.getBalance()+1, bankAccountB));
         // transfer from A to A
