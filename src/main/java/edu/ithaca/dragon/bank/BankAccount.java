@@ -135,8 +135,15 @@ public class BankAccount {
      * @param amount A money amount
      * @param bankAccount Account to transfer a money amount to
      * @throws IllegalArgumentException if amount is is considered invalid by isAmountValid or if bankAccount is null
+     * @throws InsufficientFundsException if amount exceeds balance
      */
-    public void transfer(double amount, BankAccount bankAccount) {
+    public void transfer(double amount, BankAccount bankAccount) throws Exception {
+        if (this == bankAccount)
+            throw new IllegalArgumentException("Cannot transfer to own account");
+        if (bankAccount == null)
+            throw new IllegalArgumentException("Invalid account");
 
+        withdraw(amount);
+        bankAccount.deposit(amount);
     }
 }
